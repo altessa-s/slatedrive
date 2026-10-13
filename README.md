@@ -19,6 +19,7 @@ The app is free. There are no ads and no sign-up. The only account involved is y
 
 - [Getting started](#getting-started)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Privacy](#privacy)
 - [Updates](#updates)
 - [Uninstalling](#uninstalling)
@@ -282,6 +283,29 @@ Every kind of banner has its own switch on the **Notifications** page in Setting
 ### Languages
 
 The interface is available in American English, German, Spanish, French, Dutch and Russian.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/finder-library.png" alt="The reMarkable library mounted as a drive in Finder"><br>The library in Finder</td>
+    <td width="50%"><img src="docs/screenshots/notebook-preview.png" alt="A handwritten notebook opened as a PDF in Quick Look"><br>A notebook opened as a PDF</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/menubar-panel.png" alt="The menu bar panel with sync status and recently updated documents"><br>The menu bar panel</td>
+    <td><img src="docs/screenshots/highlights.png" alt="Highlighted passages from several notebooks in one window"><br>Highlights</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/ai-studio-actions.png" alt="AI Studio with built-in and custom actions"><br>AI Studio actions</td>
+    <td><img src="docs/screenshots/ai-studio-automation.png" alt="AI Studio automation rules and estimated spending"><br>AI Studio automation</td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/shelf-panel.png" alt="The Shelf panel for dropping a file and choosing a folder"><br>Drop a file to send it</td>
+    <td><img src="docs/screenshots/settings-mcp.png" alt="Local MCP access with named tokens and their permissions"><br>MCP tokens</td>
+  </tr>
+</table>
+
+More in [docs/screenshots](docs/screenshots/).
 
 ## Privacy
 
