@@ -8,7 +8,7 @@ Slate Drive shows your reMarkable cloud library in Finder, as a volume under *Lo
 
 The app is free. There are no ads and no sign-up. The only account involved is your reMarkable one.
 
-**[Download the latest release](https://github.com/altessa-s/slatedrive/releases/latest)** · free · macOS 15+ · notarised DMG
+**[Download the latest release](https://github.com/altessa-s/slatedrive/releases/latest)** · free · macOS 15+ · notarised installer package
 
 > [!NOTE]
 > Slate Drive is MIT-licensed. Right now this repository has builds only. The source code will be published here by the end of 2026. See [Source code and license](#source-code-and-license).
@@ -19,6 +19,7 @@ The app is free. There are no ads and no sign-up. The only account involved is y
 - [Features](#features)
 - [Privacy](#privacy)
 - [Updates](#updates)
+- [Uninstalling](#uninstalling)
 - [Reporting issues](#reporting-issues)
 - [Source code and license](#source-code-and-license)
 
@@ -31,14 +32,14 @@ The app is free. There are no ads and no sign-up. The only account involved is y
 
 ### Install
 
-1. Download the DMG from [Releases](https://github.com/altessa-s/slatedrive/releases).
-2. Drag Slate Drive into `Applications` and open it.
-3. The first launch starts a short tour. It connects your account using the one-time code from your reMarkable account website. It also offers launch at login and notifications, and explains why you might want each one.
+1. Download the installer package (`.pkg`) from [Releases](https://github.com/altessa-s/slatedrive/releases).
+2. Open it and follow the installer. It puts Slate Drive in `Applications` and opens it. If an older copy is running, the installer quits it first.
+3. The first launch starts a short tour. It connects your account using the one-time code from your reMarkable account website. It also offers launch at login and notifications, and explains why you might want each one. In a beta build, the tour opens with the beta notice.
 
 You can reopen the tour later with **Show the tour** in the About window.
 
 > [!IMPORTANT]
-> Keep one copy of the app on your Mac. The Finder volume comes from a File Provider extension, and macOS ties it to one specific app bundle. A second copy lying around, say in `Downloads` or on a mounted DMG, can take the volume away from the copy you use.
+> Keep one copy of the app on your Mac, the one in `Applications`. The Finder volume comes from a File Provider extension, and macOS ties it to one specific app bundle. A second copy lying around, say in `Downloads` or on an old beta 1 disk image that is still mounted, can take the volume away from the copy you use.
 
 ## Features
 
@@ -48,7 +49,11 @@ The library appears as **Slate Drive** under *Locations*, with the same folders 
 
 Notebooks and annotated documents open as PDFs rendered locally. PDF and EPUB files are passed through as they are. Documents download when you open them, and the folder tree syncs in the background. Favorites and the tablet's trash show up in the volume too.
 
-The app lives in the menu bar. It keeps you signed in, shows sync status, and can start at login so the drive is always there.
+The app's panel shows sync status and opens the volume in Finder, AI Studio, Highlights and Settings. See [Running in the background](#running-in-the-background) for how the app stays running.
+
+### Your account
+
+Settings › General shows your plan, with your account's email under it; the menu-bar panel shows the email too. An organisation's plan shows as *Connect (Enterprise)*. One account is connected at a time. Disconnecting takes the volume out of Finder and erases that account's data on this Mac before another account can connect.
 
 ### Read-only or editing
 
@@ -61,7 +66,7 @@ Turn on editing and Finder works like a normal disk. You can create folders, upl
 There are four ways to send, and none of them needs the app window:
 
 - **Share menu.** "Save to Slate Drive" appears in every Mac app that has a Share menu: Preview, Mail, Safari, Chrome, your editor.
-- **Drag and drop.** Drop files onto the Dock icon or the menu-bar icon. Nothing opens and nothing asks for confirmation.
+- **Drag and drop.** Drop files onto the Dock icon (when it's shown) or onto the app in Finder. Nothing opens and nothing asks for confirmation. The menu-bar icon doesn't take files.
 - **Shelf.** A panel at the edge of the screen where you can collect files during the day and then send them all with one click. Each file shows what will happen to it: *keep as is*, *→ PDF* or *→ Notebook*.
 - **⌘P.** Any app that can print can send to the tablet (see [Print to the tablet](#print-to-the-tablet)).
 
@@ -108,6 +113,8 @@ Pin a folder or a document and Slate Drive keeps a copy on the Mac, so it opens 
 
 The optional backup keeps a continuous copy of the library in a folder you choose. It holds readable PDFs of notebooks and annotated documents, with the tablet's own files next to them. After the first full pass, only changed documents are updated. That works well with Time Machine or any tool that watches a folder.
 
+A backup folder belongs to the account that made it. A folder with another account's backup is left alone. Disconnecting turns the backup off and leaves the copy where it is.
+
 ### Search and recognition
 
 Spotlight can index document text, so you can find notes by what's in them, not just by title. Handwriting and printed pages each get their own default engine. Engines you switch off disappear from the menus.
@@ -118,23 +125,34 @@ Spotlight can index document text, so you can find notes by what's in them, not 
 | Tesseract | On this Mac. Uses language data from a folder you choose, and stays off until you choose one |
 | Google Cloud Vision | Cloud, with your API key |
 | Yandex Vision OCR | Cloud, with a Yandex Cloud API key. Handwriting in Russian and English, print in about four dozen languages |
+| MyScript | Cloud, with your MyScript keys. Handwriting only, read from the notebook's pen strokes rather than a picture of the page |
 | AI connection | Apple Intelligence on this Mac, or Anthropic, OpenAI, Gemini, DeepSeek or Yandex AI Studio |
 
-Cloud engines stay off until you switch them on, and switching one on asks first: page images will leave this Mac. The same switch turns it off.
+Cloud engines stay off until you switch them on, and switching one on asks first: page images will leave this Mac (for MyScript, the pen strokes). The same switch turns it off.
 
 Which engine reads best depends on your language, your hand and the page. I don't quote accuracy numbers, because they'd be measured on somebody else's handwriting. Try two engines on a note you know well and compare.
 
+Markdown you write with the pen counts, whichever engine reads the page: `#` headings, `**bold**`, `*italic*` and `~~struck out~~` become formatting. Text typed on the tablet keeps its place among the handwritten lines.
+
 Each page is only read once:
-- The text that was read is stored with the document. Spotlight, AI Studio, integrations and MCP all reuse it.
+- The text that was read is stored with the document. Spotlight, AI Studio, Highlights, integrations, Shortcuts and MCP all reuse it.
 - A page is read again only if the document changes or you pick a different engine.
 - PDFs that already have a text layer use that layer, and blank notebook pages are skipped.
 - If a model refuses a document, that document is flagged and the rest of the pass carries on. You can then give it to a fallback model or read it locally.
+
+### Highlights
+
+The **Highlights** window collects every passage you marked with the highlighter, document by document. Each passage is a picture cut from its page. You can copy or share it, have it recognised, or hide it.
+
+You can also remove a highlight from the tablet, or all highlights of a document. The app asks first and keeps the pages as they were on this Mac.
+
+Highlights show up elsewhere too: an AI Studio action can export them, a rule can start on new highlights, and MCP clients can list and remove them.
 
 ### AI Studio
 
 AI Studio is the window where pages turn into transcripts, summaries and exports.
 
-**Actions** work on the documents you select. An action can read the pages, run a model with a prompt, and write a file; the first two steps are optional. The app ships with three actions: Transcribe, Summary and Highlights. Export to Word and Export to Markdown are added as your own actions, so you can edit or delete them.
+**Actions** work on the documents you select. An action can read the pages, run a model with a prompt, and write a file; the first two steps are optional. The app ships with four actions: Transcribe, Summary, Highlights and Highlights as Images. Export to Word, Export to Markdown and Highlights to Markdown are added as your own actions, so you can edit or delete them.
 
 Output formats:
 - PDF, searchable PDF, notebook
@@ -142,11 +160,24 @@ Output formats:
 - the original document, or page images
 - highlighted passages. These include highlights the tablet copied from a PDF's text, and marker strokes drawn over handwriting.
 
-**Prompts** are yours to write: one for lectures, one for meetings, one for papers. Each prompt has a name, a description, tags, and a list of the AI connections it may use. Two prompts come with the app, and you can duplicate them as a starting point. Actions refer to a prompt instead of carrying their own wording.
+**Highlights as Images** cuts each marked passage out of its page and writes them into a PDF, a Word file, PNG images or a Markdown note. It uses no model and costs nothing.
 
-**Rules** attach an action to a library folder, with a condition and a monthly budget in US dollars. When a rule hits its budget, it pauses until the first of the next month. Rules are the only thing that runs in the background.
+**Transcription settings** belong to each action, with one tab for handwriting and one for printed pages. They cover checkboxes, Markdown written by hand, struck-through text, tables, drawings and spelling repair. When a plain OCR engine reads the page and no prompt follows, *Use AI to normalize* can have a model of your choice tidy up its text.
 
-**Journal** logs every run with its tokens and cost. When an engine read the page as an image, the entry also shows how confident it was.
+**Markdown keeps drawings.** A Markdown file comes with its pictures in a folder beside it. Obsidian, and Logseq through a graph folder, get them as attachments.
+
+**Local folders keep what's there.** When a file of the same name already exists, the new one is saved beside it with a number. Turn on **Replace a file of the same name** on the action to overwrite it instead.
+
+**Prompts** are yours to write: one for lectures, one for meetings, one for papers. Each prompt has a name, a description, tags, and a list of the AI connections it may use. Three prompts come with the app, and you can duplicate them as a starting point. Actions refer to a prompt instead of carrying their own wording.
+
+**Rules** run on their own, as *When → If → Do*:
+- **When** a document is new, new or changed, given a tag, or highlighted anew.
+- **If** it meets your conditions: folder, tag, name, type, favourite, dates, highlight colours. Conditions can be combined with *all*, *any* or *none*, and grouped.
+- **Do** a chain of steps: run actions, add or remove tags, add to or remove from favourites, move to a folder, move to the trash.
+
+A rule with only library steps costs nothing. A rule that runs actions has a monthly budget in US dollars; when it hits the budget, it pauses until the first of the next month. If a step fails, **Retry** in the journal picks up from that step. Tags changed in Finder don't start rules yet; use **Process now** for those. In AI Studio, only rules run in the background.
+
+**Journal** logs every run with its tokens and cost, one row per step of a rule. When an engine read the page as an image, the entry also shows how confident it was. You can select rows and copy them.
 
 **Processors** (OCR engines, Compose, writers) are configured in the same window. A processor you switch off isn't offered in any action.
 
@@ -172,18 +203,48 @@ Results can go to note-taking apps. Export is one-way; nothing syncs back.
 - **Tags:** notes that support tags get `reMarkable` first, then whatever tags you add on the form.
 - **Sending again:** depending on the app and your settings, a second send either updates the note or creates a new one.
 
+### Sync across Macs
+
+Macs signed in to the same Apple account and the same reMarkable account share their setup through iCloud. There is nothing to switch on.
+
+What syncs:
+- AI connections, except ones that run on this Mac or on your local network
+- recognition and sending settings
+- recognised text, so a document read on one Mac isn't read, or paid for, again on another
+- highlight scans, and the passages you hid
+
+API keys go to iCloud Keychain. The reMarkable sign-in, MCP tokens, integrations, local folders, your own prompts and actions, and the Spotlight index stay on each Mac. Documents always come from the reMarkable cloud.
+
+### Shortcuts, Spotlight and Siri
+
+Shortcuts can find documents by name, tag, kind, folder or date, get a document's file or its text, and open it. Getting text may run the recognition engine you set up. With editing on, Shortcuts can also tag, move, rename, favourite and trash documents, and create folders. Opening and getting a document are available from Spotlight and Siri too.
+
 ### MCP server
 
-Slate Drive can run a local Model Context Protocol server. It's off by default, listens on localhost only, and requires a Bearer token kept in the Keychain.
+Slate Drive can run a local Model Context Protocol server. It's off by default and listens on localhost only.
+
+Each client gets its own named token, with the permissions you pick:
+- Read library
+- Read text and recognition
+- Read highlights
+- Export files
+- Page images
+- Edit library
+- Move to trash
+- Remove highlights
+
+The token is shown once, when you make it, with the Claude Code command and the `.mcp.json` snippet ready to copy. The Keychain keeps only a fingerprint of it. You can edit a token's permissions or revoke it at any time. If you used MCP in beta 1, your token keeps working as one named "Default".
 
 Clients like Claude Desktop or Claude Code can:
 - list the library
 - read document text
 - search recognised content
 - get a short-lived link to a file
+- list a document's highlights
 - move items to the trash, after you confirm
+- remove highlights from the tablet, with its own permission
 
-Nothing is exposed to the internet, so cloud-hosted connectors can't reach the server.
+A client only sees the tools its token allows. Changes to the library also need editing turned on. Nothing is exposed to the internet, so cloud-hosted connectors can't reach the server.
 
 ### Print to the tablet
 
@@ -193,6 +254,14 @@ The virtual printer is optional and off by default. Add it in *Printers & Scanne
 - It accepts PDF and Apple Raster.
 - Paper sizes include tablet sizes, A4 and Letter.
 - A finished print is sent straight away, and you get a notification.
+
+### Running in the background
+
+The app lives in the menu bar. The menu-bar icon and the Dock icon are both optional.
+
+Launch at login uses a small helper. It starts the app at login, when Finder needs it, and after a crash. With launch at login on:
+- **Close Slate Drive** closes the windows, and syncing carries on.
+- **Quit** (⌘Q) stops the app until you open it again or log in again.
 
 ### Notifications
 
@@ -212,20 +281,31 @@ The interface is available in American English, German, Spanish, French, Dutch a
 
 There are no analytics and no telemetry. The app runs in the App Sandbox. Tokens and API keys are stored in the Keychain and never in plain settings files or logs.
 
-Page images leave your Mac in four cases:
+Page images leave your Mac in three cases:
 - you turned on a cloud OCR engine
 - you ran an AI action
 - you set up a rule
-- you send to Readwise or Readwise Reader
+
+MyScript is sent the pen strokes of a notebook, not page images. Text leaves your Mac when you let a model tidy up an engine's text, and when you send to Readwise or Readwise Reader.
 
 Each of these says so at the place where you switch it on. Shared web articles are cleaned up locally by Defuddle or Readability, and they only go out if you turn on AI cleanup.
+
+Settings, AI connections, recognised text and highlight scans sync between your Macs through your own iCloud account, and API keys through iCloud Keychain. MCP tokens stay on the Mac where you made them.
 
 - [Privacy Policy](https://slatedrive.app/privacy)
 - [Terms of Use](https://slatedrive.app/terms)
 
 ## Updates
 
-Updates come from [GitHub Releases](https://github.com/altessa-s/slatedrive/releases). You can check by hand, or let the app check on its own and download updates in the background.
+Updates come from [GitHub Releases](https://github.com/altessa-s/slatedrive/releases). You can check by hand with **Check now** under Settings › General (or **Check for Updates…** in the app menu when the Dock icon is shown), or let the app check on its own. It can download an update in the background, but it only installs when you say so. After an update, a **What's New** window shows the notes once.
+
+On beta 1, check for updates the same way, or install the `.pkg` from the release page.
+
+## Uninstalling
+
+Use **Uninstall…** under Settings › General, or **Uninstall Slate Drive…** in the app menu when the Dock icon is shown. It takes the drive out of Finder, removes the background helper, and moves the app to the Trash. You choose whether to sign this Mac out or stay signed in.
+
+Changes that hadn't synced are kept by macOS, and the app shows you where. Your backup folder, AI Studio output folders and documents in the cloud are kept. If you want, the app's local data (AI Studio files, logs, caches, the index) can go to the Trash too, where you can still put it back.
 
 ## Reporting issues
 
