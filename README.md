@@ -4,6 +4,8 @@
 [![macOS 15+](https://img.shields.io/badge/macOS-15%2B-black?logo=apple)](#requirements)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](#source-code-and-license)
 
+<img src=".github/hero.png" alt="Slate Drive: your reMarkable library in Finder, with the menu bar panel and a notebook opened as a PDF" width="100%">
+
 Slate Drive shows your reMarkable cloud library in Finder, as a volume under *Locations*. Notebooks open as PDFs rendered on your Mac. The folders match what you see on the tablet. You can send files back without cables or manual exports.
 
 The app is free. There are no ads and no sign-up. The only account involved is your reMarkable one.
