@@ -28,7 +28,9 @@ The app is free. There are no ads and no sign-up. The only account involved is y
 ### Requirements
 
 - macOS 15 or later
-- A reMarkable account with a paired tablet and an active Connect subscription
+- A reMarkable account with a paired tablet
+
+Connect isn't required. Without it, reMarkable's free plan applies: by reMarkable's own terms, a file you haven't edited in 50 days stops syncing to desktop apps, so the library in Finder may be incomplete.
 
 ### Install
 
@@ -134,9 +136,9 @@ Which engine reads best depends on your language, your hand and the page. I don'
 
 Markdown you write with the pen counts, whichever engine reads the page: `#` headings, `**bold**`, `*italic*` and `~~struck out~~` become formatting. Text typed on the tablet keeps its place among the handwritten lines.
 
-Each page is only read once:
-- The text that was read is stored with the document. Spotlight, AI Studio, Highlights, integrations, Shortcuts and MCP all reuse it.
-- A page is read again only if the document changes or you pick a different engine.
+Text that was read is kept and reused where it fits:
+- It is stored with the document. Spotlight, AI Studio, integrations, Shortcuts and MCP reuse a compatible reading instead of paying for a new one. Highlights read their passages separately, and only when needed.
+- A page is read again when the document changes, when you pick a different engine, or when an action needs a reading the stored one can't give.
 - PDFs that already have a text layer use that layer, and blank notebook pages are skipped.
 - If a model refuses a document, that document is flagged and the rest of the pass carries on. You can then give it to a fallback model or read it locally.
 
@@ -209,8 +211,8 @@ Macs signed in to the same Apple account and the same reMarkable account share t
 
 What syncs:
 - AI connections, except ones that run on this Mac or on your local network
-- recognition and sending settings
-- recognised text, so a document read on one Mac isn't read, or paid for, again on another
+- recognition and sending settings, including which cloud engines are on. Your consent to send pages travels with the switch, so another Mac won't ask again
+- recognised text, so another Mac can reuse a reading instead of paying for it again
 - highlight scans, and the passages you hid
 
 API keys go to iCloud Keychain. The reMarkable sign-in, MCP tokens, integrations, local folders, your own prompts and actions, and the Spotlight index stay on each Mac. Documents always come from the reMarkable cloud.
@@ -241,10 +243,12 @@ Clients like Claude Desktop or Claude Code can:
 - search recognised content
 - get a short-lived link to a file
 - list a document's highlights
-- move items to the trash, after you confirm
-- remove highlights from the tablet, with its own permission
+- move items to the trash
+- remove highlights from the tablet
 
-A client only sees the tools its token allows. Changes to the library also need editing turned on. Nothing is exposed to the internet, so cloud-hosted connectors can't reach the server.
+The last two need the token's permission, and the app asks you to confirm where the client supports it.
+
+A client only sees the tools its token allows. Changes to the library also need editing turned on. Nothing is exposed to the internet, so cloud-hosted connectors can't reach the server. What a client does with the content it reads is up to that client, so give tokens only to clients you trust.
 
 ### Print to the tablet
 
@@ -281,14 +285,16 @@ The interface is available in American English, German, Spanish, French, Dutch a
 
 There are no analytics and no telemetry. The app runs in the App Sandbox. Tokens and API keys are stored in the Keychain and never in plain settings files or logs.
 
-Page images leave your Mac in three cases:
-- you turned on a cloud OCR engine
-- you ran an AI action
-- you set up a rule
+What leaves your Mac depends on the engine or model you chose and what it reads:
+- **A cloud OCR engine** you switched on gets page images. MyScript gets a notebook's pen strokes instead.
+- **An AI action** sends its model page images or text, depending on the connection. Apple Intelligence's on-device model sends nothing. Actions without a model, and rules made only of library steps, send nothing to an AI provider.
+- **Use AI to normalize** sends an engine's text to the model you picked.
+- **Readwise and Readwise Reader** get the text you send them.
+- **MCP clients** you gave a token to get what its permissions allow.
 
-MyScript is sent the pen strokes of a notebook, not page images. Text leaves your Mac when you let a model tidy up an engine's text, and when you send to Readwise or Readwise Reader.
+Each of these says so at the place where you switch it on.
 
-Each of these says so at the place where you switch it on. Shared web articles are cleaned up locally by Defuddle or Readability, and they only go out if you turn on AI cleanup.
+Shared web pages are loaded from the website, like in a browser. Defuddle and Readability clean them up on your Mac and send nothing to an AI provider. With AI cleanup on, the model gets the article's text, title and address. The finished PDF goes to the reMarkable cloud like any other send.
 
 Settings, AI connections, recognised text and highlight scans sync between your Macs through your own iCloud account, and API keys through iCloud Keychain. MCP tokens stay on the Mac where you made them.
 
@@ -299,11 +305,13 @@ Settings, AI connections, recognised text and highlight scans sync between your 
 
 Updates come from [GitHub Releases](https://github.com/altessa-s/slatedrive/releases). You can check by hand with **Check now** under Settings › General (or **Check for Updates…** in the app menu when the Dock icon is shown), or let the app check on its own. It can download an update in the background, but it only installs when you say so. After an update, a **What's New** window shows the notes once.
 
-On beta 1, check for updates the same way, or install the `.pkg` from the release page.
+On beta 1, check for updates the same way, or install the `.pkg` from the release page. Before you do, read the [beta 2 release notes](https://github.com/altessa-s/slatedrive/releases/tag/v1.0.0-beta-173134fb):
+- cloud recognition and AI Studio results made by beta 1 are made again once, when first needed. Those are normal paid requests to your provider.
+- rules made in beta 2 don't work if you go back to beta 1.
 
 ## Uninstalling
 
-Use **Uninstall…** under Settings › General, or **Uninstall Slate Drive…** in the app menu when the Dock icon is shown. It takes the drive out of Finder, removes the background helper, and moves the app to the Trash. You choose whether to sign this Mac out or stay signed in.
+Use **Uninstall…** under Settings › General, or **Uninstall Slate Drive…** in the app menu when the Dock icon is shown. It takes the drive out of Finder, removes the background helper, and moves the app to the Trash. If macOS doesn't let it, the app shows itself in Finder for you to drag to the Trash after it quits. You choose whether to sign this Mac out or stay signed in.
 
 Changes that hadn't synced are kept by macOS, and the app shows you where. Your backup folder, AI Studio output folders and documents in the cloud are kept. If you want, the app's local data (AI Studio files, logs, caches, the index) can go to the Trash too, where you can still put it back.
 
