@@ -58,8 +58,9 @@ You can reopen the tour later with **Show the tour** in the About window.
 
 The library appears as **Slate Drive** under *Locations*, with the same folders and documents as on the tablet.
 
-Notebooks and annotated documents open as PDFs rendered locally. PDF and EPUB files are passed through as they are. Documents download when you open them,
-and the folder tree syncs in the background. Favorites and the tablet's trash show up in the volume too.
+Notebooks and annotated documents open as PDFs rendered locally. Press Space on a `.rm` page or a `.rmdoc` file to preview it in Quick Look, with page
+thumbnails in Finder; annotated PDFs show their original pages with your ink. PDF and EPUB files are passed through as they are. Documents download when
+you open them, and the folder tree syncs in the background. Favorites and the tablet's trash show up in the volume too.
 
 The app's panel shows sync status and opens the volume in Finder, AI Studio, Highlights and Settings. See [Running in the
 background](#running-in-the-background) for how the app stays running.
@@ -93,8 +94,13 @@ PDF or a notebook. A PDF is laid out for your tablet's screen: reMarkable 2, Pap
 format, so you can keep editing it on the device. A typed notebook can't hold tables or images; a file with those goes as a PDF, and the panel tells you
 so.
 
+**Files it can't send.** Dropping something into the volume that is neither a PDF nor an EPUB — a Word or Pages document, an image, an archive —
+opens a window naming each file and the reason, with **Convert to PDF** and **Delete** on offer. A **Unsupported files** setting in the Drive
+settings can do either of those automatically instead of asking next time.
+
 **Where it lands.** Files go to a destination folder you set once. Until you set one, the app creates an *Inbox* folder at the top of the library. You can
-also have it ask for a folder on every send. Tags from the Tablet settings are added to everything you send.
+also have it ask for a folder on every send — including a new folder created at that moment from the same folder tree, in the shelf, in AI Studio and in
+exports. Tags from the Tablet settings are added to everything you send.
 
 #### Web articles, cleaned up on your Mac
 
@@ -169,6 +175,9 @@ handwriting. Try two engines on a note you know well and compare.
 Markdown you write with the pen counts, whichever engine reads the page: `#` headings, `**bold**`, `*italic*` and `~~struck out~~` become formatting. Text
 typed on the tablet keeps its place among the handwritten lines.
 
+Handwritten formulas become LaTeX with an AI reader or MyScript, and are typeset in the documents that show them. It is on by default; each action
+can turn it off with **Formulas as LaTeX**, and a formula that has already been recognised is not recognised again.
+
 Text that was read is kept and reused where it fits:
 - It is stored with the document. Spotlight, AI Studio, integrations, Shortcuts and MCP reuse a compatible reading instead of paying for a new one.
   Highlights read their passages separately, and only when needed.
@@ -179,8 +188,11 @@ Text that was read is kept and reused where it fits:
 
 ### Highlights
 
-The **Highlights** window collects every passage you marked with the highlighter, document by document. Each passage is a picture cut from its page. You
-can copy or share it, have it recognised, or hide it.
+The **Highlights** window collects every passage you marked with the highlighter, with a library of documents, a view of one document and a search across
+all of them. Each passage is a picture cut from its page, and pictures come first: you can copy or share one, have it recognised, or hide it.
+
+Passages can be saved to a file in three forms: a PDF with the passage text, a PDF with the pictures of the passages as marked, or a reMarkable notebook
+sent to your tablet. Passages from one page are separated by a short divider.
 
 You can also remove a highlight from the tablet, or all highlights of a document. The app asks first and keeps the pages as they were on this Mac.
 
@@ -323,6 +335,10 @@ Launch at login uses a small helper. It starts the app at login, when Finder nee
 - **Close Slate Drive** closes the windows, and syncing carries on.
 - **Quit** (⌘Q) stops the app until you open it again or log in again.
 
+The helper's registration belongs to a copy of the app, so a copy that was moved or deleted can leave it pointing at nothing. The app checks that at
+every launch and registers the helper again when it cannot answer. If it still cannot, **Launch at login** in Settings › General says so, with **Try
+again**: it asks the helper first and only re-registers it when there is no answer.
+
 ### Notifications
 
 Every kind of banner has its own switch on the **Notifications** page in Settings. They all start on:
@@ -332,6 +348,7 @@ Every kind of banner has its own switch on the **Notifications** page in Setting
 - AI Studio runs
 - a rule that hit its budget
 - a send to a note app
+- a background helper that could not start
 
 ### Languages
 
